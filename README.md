@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cash Manager
 
-## Getting Started
+PWA mobile-first per finanze personali: conti, wallet, titoli, interessi netti, bollo, report.
 
-First, run the development server:
-
+## Avvio
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Senza variabili d'ambiente parte in **modalità demo** (dati in localStorage).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Cloud (Supabase + Vercel)
+1. Crea un progetto su supabase.com, esegui `supabase/schema.sql` nello SQL editor.
+2. Authentication → abilita Email (magic link); aggiungi l'URL dell'app ai Redirect URLs.
+3. Copia `.env.example` in `.env.local` e compila URL + anon key (+ `ANTHROPIC_API_KEY` per scontrini/voce).
+4. Deploy su Vercel con le stesse variabili.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Regole fiscali (lib/tax.ts)
+- Interessi: lordo × (1 − 26%), generati ogni mese, **in attesa di conferma** (o automatici se attivi sul conto).
+- Bollo conto corrente: 34,20 €/anno (8,55 €/trimestre), solo se giacenza > 5.000 € (verifica con la tua banca).
+- Bollo dossier titoli: 0,2% annuo (trimestrale), sul controvalore.
+- Titoli di Stato (12,5%) e conti esteri (IVAFE) non sono ancora gestiti.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scontrini e voce
+`/api/parse` usa Claude (vision) per gli scontrini; la voce usa il riconoscimento del browser (it-IT) e poi Claude per estrarre importo/categoria.

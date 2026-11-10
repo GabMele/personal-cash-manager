@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
+/* Tema scuro (default) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0b0b14;
+  --bg-a: #1a1432;   /* sfondo pagina: gradiente bicolore delicato */
+  --bg-b: #0b2429;
+  --card: rgba(255, 255, 255, 0.06);
+  --line: rgba(255, 255, 255, 0.1);
+  --line2: rgba(255, 255, 255, 0.15);
+  --tint: rgba(255, 255, 255, 0.05);
+  --tint2: rgba(255, 255, 255, 0.1);
+  --pop: #1a1a33;    /* menu e finestre */
+  --row: #000;       /* righe dei movimenti */
+  --lbl: #12112a;    /* maschera delle label sul bordo: ~ colore medio dello sfondo */
+  --fg: #f4f4fb;
+  --muted: #9a9ab5;
+  --accent: #7c5cff;
+  --accent2: #00d4aa;
+  --bad: #ff5d73;
 }
-
+:root[data-theme="light"] {
+  --bg: #f4f5fb;
+  --bg-a: #e9e3ff;
+  --bg-b: #dcf3ee;
+  --card: rgba(255, 255, 255, 0.75);
+  --line: rgba(20, 20, 50, 0.1);
+  --line2: rgba(20, 20, 50, 0.18);
+  --tint: rgba(20, 20, 50, 0.05);
+  --tint2: rgba(20, 20, 50, 0.09);
+  --pop: #ffffff;
+  --row: #fff;
+  --lbl: #e8eafa;
+  --fg: #14142a;
+  --muted: #6b6b85;
+  --accent: #6a4af0;
+  --accent2: #00977c;
+  --bad: #e0304f;
+}
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent2: var(--accent2);
+  --color-bad: var(--bad);
+  --color-tint: var(--tint);
+  --color-tint2: var(--tint2);
+  --color-line: var(--line);
+  --color-line2: var(--line2);
+  --color-pop: var(--pop);
+  --color-row: var(--row);
+  --color-lbl: var(--lbl);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(160deg, var(--bg-a), var(--bg-b)) var(--bg);
+  background-attachment: fixed;
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  backdrop-filter: blur(14px);
+}
+.btn {
+  background: linear-gradient(135deg, var(--accent), #b05cff);
+  border-radius: 14px;
+  padding: 0.7rem 1.1rem;
+  font-weight: 600;
+}
+.btn-ghost { border: 1px solid var(--line); border-radius: 14px; padding: 0.6rem 1rem; }
+.inp {
+  width: 100%;
+  background: var(--tint);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.65rem 0.8rem;
+  font-size: 16px;
+  color: var(--fg);
+}
+.inp option { background: var(--pop); color: var(--fg); }
+.lbl { font-size: 0.72rem; color: var(--muted); margin-bottom: 0.25rem; display: block; }
+.num { font-variant-numeric: tabular-nums; }
